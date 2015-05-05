@@ -5,8 +5,8 @@ var STATE_RESET = 2;
 var STATE_WIN = 3;
 var gameState = STATE_GAME;
 
-var score = 0;
-var lives = 1;
+//var score = 0;
+var lives = 3;
 
 function runGame(deltaTime)
 {
@@ -179,13 +179,17 @@ function run()
 	}		
 	
 	// score
-		context.fillStyle = "yellow";
-		context.font="32px Arial";
-		var scoreText = "Score: " + score;
-		context.fillText(scoreText, SCREEN_WIDTH - 170, 35);
+		//context.fillStyle = "yellow";
+		//context.font="32px Arial";
+		//var scoreText = "Score: " + score;
+		//context.fillText(scoreText, SCREEN_WIDTH - 170, 35);
 		
 		// life counter
-	for(var i=0; i<lives; i++)
+	context.fillStyle = "yellow";	
+	context.font="32px Arial";
+	var scoreText = "X: " + lives;
+	context.fillText(scoreText, 80, 50)
+	
 	var heartImage =document.createElement("img")
 	heartImage.src = "Heart.png"
 	{
@@ -218,8 +222,15 @@ function run()
 	{
 		player = new Player();
 		gameState = STATE_RESET;
-	}
+		lives = lives - 1;
 		
+	}
+	
+	if (lives < 0)
+	{
+		lives = 3;
+	}
+	
 	if (player.position.x > 2000)
 	{
 		gameState = STATE_WIN;
