@@ -89,11 +89,8 @@ var worldOffsetX = 0;
 function drawMap()
 {
 	var maxTiles = Math.floor(SCREEN_WIDTH / TILE) + 2;
-	
 	var tileX = pixelToTile(player.position.x);
-	
 	var offsetX = TILE + Math.floor(player.position.x % TILE);
-	
 	var startX = tileX - Math.floor(maxTiles / 2);
 	
 	if (startX < -1)

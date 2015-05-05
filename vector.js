@@ -9,14 +9,14 @@ var Vector2 = function ()
 
 Vector2.prototype.initialize = function (x, y) 
 {
-  x = x;
-  y = y;
+  this.x = x;
+  this.y = y;
 };
 
 Vector2.prototype.set = function (x, y) 
 {
-  x = x;
-  y = y;
+  this.x = x;
+  this.y = y;
 };
  
 Vector2.prototype.getX = function () 
@@ -26,7 +26,7 @@ Vector2.prototype.getX = function ()
  
 Vector2.prototype.setX = function (x) 
 {
-  x = x;
+  this.x = x;
 };
  
 Vector2.prototype.getY = function () 
@@ -36,7 +36,7 @@ Vector2.prototype.getY = function ()
  
 Vector2.prototype.setY = function (y) 
 {
-  y = y;
+  this.y = y;
 };
 
 Vector2.prototype.magnitude = function()

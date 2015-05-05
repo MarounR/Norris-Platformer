@@ -9,7 +9,7 @@ var ANIM_JUMP_RIGHT = 4;
 var ANIM_WALK_RIGHT = 5;
 
 var ANIM_MAX = 6;
-
+var lives = 3;
 
 var Player = function ()
 {
@@ -41,13 +41,10 @@ var Player = function ()
 	
 	//this.image = document.createElement("img");
 	this.position = new Vector2 ();
-	this.position.set(9 *TILE, 0 *TILE);
+	this.position.set(11 *TILE, 7 *TILE);
 	
 	this.width = 159;
 	this.height = 163;
-	
-	//this.offset = new Vector2();
-	//this.offset.set(-55, -87);
 	
 	this.velocity = new Vector2();
 	
@@ -55,10 +52,12 @@ var Player = function ()
 	this.jumping = false;
 	
 	this.direction = LEFT;
+	 
+	 this.lives = 3;
+	 this.dead = false;
 	
-	
-	return this;
 	//this.image.src = "hero.png";
+	return this;
 }
 
 Player.prototype.update = function (deltaTime)
@@ -104,7 +103,7 @@ Player.prototype.update = function (deltaTime)
 			}
 		}		
 	}
-
+	
 	if(keyboard.isKeyDown(keyboard.KEY_SPACE) == true)
 	{
 		jump = true;

@@ -1,5 +1,27 @@
 var canvas = document.getElementById("gameCanvas");
 var context = canvas.getContext("2d");
+var STATE_GAME = 1;
+var STATE_RESET = 2;
+var STATE_WIN = 3;
+var gameState = STATE_GAME;
+
+var score = 0;
+var lives = 1;
+
+function runGame(deltaTime)
+{
+}
+
+function runWin(deltaTime)
+{
+	context.fillStyle = "#000";
+	context.font = "28px Arial";
+	context.fillText("You WIN!!!!  Die to Reset", 200, 240);
+}
+
+function runReset(deltaTime)
+{
+}
 
 var startFrameMillis = Date.now();
 var endFrameMillis = Date.now();
@@ -66,10 +88,6 @@ var player = new Player();
 
 var cells = []; // the array that holds our simplified collision data
 
-//var music = new Audio ("background.ogg");
-//music.loop = true;
-//music.play();
-
 var music = new Howl(
 {
 		urls : ["background.ogg"],
@@ -78,18 +96,8 @@ var music = new Howl(
 		volume : 0.5 
 }
 );
+music.play()
 
-//var isSFXPlaying = false;
-//var sfx = new Audio ("fireEffect.ogg");
-//sfx.onended = function() {isSFXPlaying = false};
-
-//sfx.Player = function(){
-	//if (!isSFXPlaying)
-	//{
-		//sfx.play();
-		//isSFXPlaying = true;
-	//}
-//}
 
 var cells = []
 function initialize() {
@@ -153,36 +161,12 @@ function bound(value, min, max)
 	return value;
 }
 
-//var drawMap
-//{
-//	for(var layerIndex=0; layerIndex <LAYER_COUNT; layerIndex++)
-//	{
-//		var idx = 0;
-//		for( var y = 0; y < lvl1.layers[layerIndex].height; y++ )
-//		{
-//			for( var x = 0; x < lvl1.layers[layerIndex].width; x++ )
-//			{
-//				var tileIndex = lvl1.layers[layerIndex].data[idx] - 1;
-//				var sx = TILESET_PADDING + (tileIndex % TILESET_COUNT_X)* (TILESET_TILE + TILESET_SPACING);
-//				
-//				var sy = TILESET_PADDING + (Math.floor(tileIndex / TILESET_COUNT_Y)) * (TILESET_TILE + TILESET_SPACING);
-//				
-//				context.drawImage(tileset, sx, sy, TILESET_TILE, TILESET_TILE, x*TILE, (y-1)*TILE, TILESET_TILE, TILESET_TILE);
-//			}
-//			idx++;
-//		}
-//	}
-//};
-
 function run()
 {
 	context.fillStyle = "#ccc";		
 	context.fillRect(0, 0, canvas.width, canvas.height);
 	
 	var deltaTime = getDeltaTime();
-
-	player.update(deltaTime);
-	player.draw(context);
 		
 	// update the frame counter 
 	fpsTime += deltaTime;
@@ -193,13 +177,66 @@ function run()
 		fps = fpsCount;
 		fpsCount = 0;
 	}		
+	
+	// score
+		context.fillStyle = "yellow";
+		context.font="32px Arial";
+		var scoreText = "Score: " + score;
+		context.fillText(scoreText, SCREEN_WIDTH - 170, 35);
 		
+		// life counter
+	for(var i=0; i<lives; i++)
+	var heartImage =document.createElement("img")
+	heartImage.src = "Heart.png"
+	{
+		context.drawImage(heartImage, 20, 10);
+	}
+	
+	switch(gameState)
+	{		
+		case STATE_GAME:
+			runGame(deltaTime);
+			break;
+		
+		case STATE_WIN:
+			runWin(deltaTime);
+			break;
+			
+		case STATE_RESET:
+			runReset(deltaTime);
+			break;
+	}
 	drawMap();
+
+	var width = -110;
+	var height = -105;
+	
+	player.update(deltaTime);
+	player.draw(context);
+	
+	if (player.position.y > 450)
+	{
+		player = new Player();
+		gameState = STATE_RESET;
+	}
+		
+	if (player.position.x > 2000)
+	{
+		gameState = STATE_WIN;
+	}
 	
 	// draw the FPS
 	context.fillStyle = "#f00";
 	context.font="14px Arial";
 	context.fillText("FPS: " + fps, 5, 20, 100);
+	
+	//X & Y
+	context.fillStyle = "#fff";
+	context.font="14px Arial";
+	context.fillText("X: " + player.position.x, 5, 35, 100);
+	context.fillStyle = "#fff";
+	context.font="14px Arial";
+	context.fillText("Y: " + player.position.y, 5, 50, 100);
 }
 
 initialize();
